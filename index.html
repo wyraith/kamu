@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maafin Aku Ya? 🥺</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a18cd1, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .emoji-bg {
+            position: absolute;
+            font-size: 2.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            user-select: none;
+            pointer-events: none;
+            animation: floatUp 10s infinite linear;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% { 
+                transform: translateY(110vh) translateX(-50px) rotate(0deg); 
+                opacity: 0;
+            }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { 
+                transform: translateY(-20vh) translateX(50px) rotate(360deg); 
+                opacity: 0;
+            }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            transition: transform 0.3s ease;
+            animation: floatUpIn 1s ease-out forwards;
+        }
+
+        .gif-container {
+            margin-bottom: 20px;
+            overflow: hidden;
+            border-radius: 15px;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gif-container img {
+            width: 100%; 
+            height: auto; 
+            max-width: 220px; 
+            border-radius: 15px;
+            pointer-events: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            display: block;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            line-height: 1.2;
+        }
+
+        p {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        button {
+            font-size: 1.1rem;
+            font-weight: 800;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #btn-yes {
+            background-color: #fff;
+            color: #ff4757;
+            box-shadow: 0 8px 15px rgba(255, 255, 255, 0.3), 0 4px 0 #e2e2e2;
+        }
+
+        #btn-yes:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.3), 0 0 0 #e2e2e2;
+        }
+
+        #btn-no {
+            background-color: #ff4757;
+            color: #fff;
+            box-shadow: 0 8px 15px rgba(255, 71, 87, 0.4), 0 4px 0 #d63031;
+            position: relative; 
+            z-index: 100;
+        }
+
+        #btn-next {
+            background-color: #4cd137;
+            color: #fff;
+            box-shadow: 0 8px 15px rgba(76, 209, 55, 0.4), 0 4px 0 #44bd32;
+            display: inline-block;
+            margin-top: 10px;
+            animation: pulse 1.5s infinite;
+        }
+
+        #btn-next:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 5px rgba(76, 209, 55, 0.3), 0 0 0 #44bd32;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes floatUpIn {
+            0% { opacity: 0; transform: translateY(50px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="emoji-container"></div>
+
+    <div class="glass-card" id="main-card">
+        <div class="gif-container">
+            <img id="cat-gif" src="https://i.imgur.com/KzHhO0Y.gif" alt="Cute cat crying">
+        </div>
+        
+        <h1 id="title">Maafin Aku Ya? 🥺</h1>
+        <p id="desc">Aku beneran nyesel deh. Jangan ngambek terus dong, cantiknya/gantengnya nanti luntur. Baikan yuk? 👉👈</p>
+        
+        <div class="btn-container">
+            <button id="btn-yes" onclick="dimaafin()">Iyaaa</button>
+            <button id="btn-no" onmouseover="kabur()" onclick="kabur()">Gak!</button>
+        </div>
+
+        <button id="btn-next" class="hidden" onclick="lanjutCerita()">Lanjut Mau Cerita</button>
+    </div>
+
+    <script>
+        function createFloatingEmoji() {
+            const container = document.getElementById('emoji-container');
+            const emojis = ['🥺', '🙏', '😭', '💔'];
+            const emojiCount = 15;
+
+            for (let i = 0; i < emojiCount; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji-bg';
+                emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + 'vw';
+                emoji.style.fontSize = (Math.random() * 1.5 + 2) + 'rem';
+                emoji.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                emoji.style.animationDelay = (Math.random() * 10) + 's';
+                container.appendChild(emoji);
+            }
+        }
+
+        window.addEventListener('load', createFloatingEmoji);
+
+        const btnNo = document.getElementById('btn-no');
+        btnNo.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            kabur();
+        });
+
+        function kabur() {
+            btnNo.style.position = 'fixed';
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const btnWidth = btnNo.offsetWidth;
+            const btnHeight = btnNo.offsetHeight;
+            
+            const randomX = Math.floor(Math.random() * (screenWidth - btnWidth));
+            const randomY = Math.floor(Math.random() * (screenHeight - btnHeight));
+            
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+            
+            const randomRot = Math.floor(Math.random() * 40) - 20; 
+            btnNo.style.transform = `rotate(${randomRot}deg)`;
+        }
+
+        function dimaafin() {
+            // HALAMAN 2: Link CDN Kucing Pelukan Bahagia
+            document.getElementById('cat-gif').src = "https://i.imgur.com/vHqgZfA.gif";
+            
+            document.getElementById('title').innerText = "YAYYY! MAKASIHH! 🥰";
+            document.getElementById('desc').innerText = "Hehehe sayang kamu banyak-banyak! Gak bakal diulangin lagi deh janjii 🤞❤️";
+            
+            document.querySelector('.btn-container').classList.add('hidden');
+            document.getElementById('btn-next').classList.remove('hidden');
+            
+            const floatingEmojis = document.querySelectorAll('.emoji-bg');
+            floatingEmojis.forEach(el => {
+                el.innerText = '❤️';
+                el.style.color = '#ff4757';
+                el.style.opacity = '0.9';
+                el.style.animationDuration = '4s';
+            });
+
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff9a9e', '#fecfef', '#ffffff', '#ff4757']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff9a9e', '#fecfef', '#ffffff', '#ff4757']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        function lanjutCerita() {
+            // HALAMAN 3: Link CDN Kucing Manja Menyimak Cerita
+            document.getElementById('cat-gif').src = "https://i.imgur.com/vA6Xw0f.gif";
+
+            document.getElementById('title').innerText = "Dengerin Dulu.. 🥺";
+            document.getElementById('desc').innerText = "Jadi tuh sebenernya kemarin aku gini blablabla... Intinya aku gak ada maksud bikin kamu kesel kok. Jangan ngambek lagi ya manis? ❤️";
+            
+            document.getElementById('btn-next').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
